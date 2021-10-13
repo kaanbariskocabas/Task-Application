@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Test task 1",
+    "content": "Test content 1",
+    "status": "IN_PROGRESS",
+    "timer": {
+      "timeCycles": [
+        {
+          "workCycleInMinutes": 25,
+          "finished": true
+        },
+        {
+          "workCycleInMinutes": 25,
+          "finished": false,
+          "paused": true,
+          "remainingTimeInSeconds": 1320
+        }
+      ],
+      "totalTimeSpent": {
+        "totalTimeInSeconds": 1980,
+        "breakTimeInSeconds": 300,
+        "workTimeInSeconds": 1680
+      }
+    }
+  }
+]

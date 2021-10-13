@@ -1,0 +1,15 @@
+TASK_DATA_JSON_FILE: task_data.json
+TIMER_DATA_JSON_FILE: timer_data.json
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root1234
+    url: jdbc:mysql://localhost:3306/testDb?createDatabaseIfNotExist=true

@@ -1,0 +1,21 @@
+[
+  {
+    "timeCycles": [
+      {
+        "workCycleInMinutes": 25,
+        "finished": true
+      },
+      {
+        "workCycleInMinutes": 25,
+        "finished": false,
+        "paused": true,
+        "remainingTimeInSeconds": 1320
+      }
+    ],
+    "totalTimeSpent": {
+      "totalTimeInSeconds": 1980,
+      "breakTimeInSeconds": 300,
+      "workTimeInSeconds": 1680
+    }
+  }
+]
