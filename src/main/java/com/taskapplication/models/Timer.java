@@ -2,7 +2,9 @@ package com.taskapplication.models;
 
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,23 +20,25 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Timer {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "timer_id", nullable = false)
-    @OneToMany(mappedBy = "timer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "timer_id", nullable = false)
     private List<TimeCycle> timeCycles = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private TimeSpent totalTimeSpent;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private TimeSpent totalTimeSpent = new TimeSpent();
 
-    private void setTimeCycles(List<TimeCycle> timeCycles) {
-        this.timeCycles = timeCycles;
-        timeCycles.forEach(timeCycle -> timeCycle.setTimer(this));
+    public Timer(TimeCycle timeCycle) {
+        addTimeCycle(timeCycle);
     }
 
+    public void addTimeCycle(TimeCycle timeCycle) {
+        timeCycles.add(timeCycle);
+    }
 }

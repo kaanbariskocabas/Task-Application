@@ -1,15 +1,21 @@
 TASK_DATA_JSON_FILE: task_data.json
 TIMER_DATA_JSON_FILE: timer_data.json
+
+# Port Configuration
+server:
+  port: 8181
+
+# Database Configuration
 spring:
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     hibernate:
       ddl-auto: update
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: root1234
+    password:
     url: jdbc:mysql://localhost:3306/testDb?createDatabaseIfNotExist=true

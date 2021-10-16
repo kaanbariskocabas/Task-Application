@@ -14,11 +14,17 @@ public class TimeSpent {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private long totalTimeInSeconds;
 
     private long breakTimeInSeconds;
 
     private long workTimeInSeconds;
+
+    public void addTime(long workSeconds, long breakSeconds) {
+        workTimeInSeconds += workSeconds;
+        breakTimeInSeconds += breakSeconds;
+        totalTimeInSeconds += workTimeInSeconds + breakTimeInSeconds;
+    }
 }

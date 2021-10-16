@@ -1,8 +1,8 @@
 package com.taskapplication.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.taskapplication.exception.BaseException;
 import com.taskapplication.models.Task;
-import com.taskapplication.models.TimeCycle;
 import com.taskapplication.models.Timer;
 import com.taskapplication.repositories.TaskRepository;
 import com.taskapplication.repositories.TimeCycleRepository;
@@ -12,17 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.taskapplication.util.ArrayUtil.convertArrayToList;
 import static com.taskapplication.util.JpaRepositoryUtil.isJpaRepositoryEmpty;
+import static java.util.Objects.isNull;
 
 @Configuration
 @Slf4j
@@ -42,24 +40,29 @@ public class DataConfiguration implements CommandLineRunner {
         this.taskRepository = taskRepository;
         this.timerRepository = timerRepository;
         this.timeCycleRepository = timeCycleRepository;
+        setPropertyFields(environment);
+    }
+
+    private void setPropertyFields(Environment environment) {
         TASK_DATA_JSON_FILE = environment.getProperty("TASK_DATA_JSON_FILE");
         TIMER_DATA_JSON_FILE = environment.getProperty("TIMER_DATA_JSON_FILE");
     }
 
     @Override
     public void run(String... args) throws Exception {
-        addIndividualTimers();
-        addTasks();
+        loadIndividualTimers();
+        loadTasks();
     }
 
-    private void addIndividualTimers() throws IOException {
+    private void loadIndividualTimers() throws IOException {
         final boolean isTimerRepoEmpty = isJpaRepositoryEmpty(timerRepository);
         if (isTimerRepoEmpty) {
-            timerRepository.saveAll(getTimers());
+            final List<Timer> timers = getTimers();
+            timerRepository.saveAll(timers);
         }
     }
 
-    private void addTasks() throws IOException {
+    private void loadTasks() throws IOException {
         final boolean isTaskRepoEmpty = isJpaRepositoryEmpty(taskRepository);
         if (isTaskRepoEmpty)
             taskRepository.saveAll(getTasks());
@@ -74,24 +77,27 @@ public class DataConfiguration implements CommandLineRunner {
     }
 
     private <T> List<T> getMappedList(String timerDataJsonFile, Class<T[]> valueType) throws IOException {
-        final T[] mappedObjects = getMappedObjects(timerDataJsonFile, valueType);
-        return convertArrayToList(mappedObjects);
+        return convertArrayToList(getMappedObjects(timerDataJsonFile, valueType));
     }
 
-    private <T> T getMappedObjects(String fileName, Class<T> valueType) throws IOException {
-        if (valueType != null) {
-            ObjectMapper mapper = new ObjectMapper();
+    private <T> T[] getMappedObjects(String fileName, Class<T[]> valueType) throws IOException {
+        if (isNull(valueType))
+            throw new DataLoadException("Please specify a class type for mapping");
 
-            return mapper.readValue(getDataFile(fileName), valueType);
-
-        }
-        throw new RuntimeException("Please specify a class type");
+        return new ObjectMapper().readValue(getDataFile(fileName), valueType);
     }
 
-    private File getDataFile(String fileName) throws IOException {
+    private File getDataFile(String fileName) {
         final URL resource = DataConfiguration.class.getClassLoader().getResource(fileName);
         if (resource == null || resource.getFile() == null)
-            throw new IOException("File not found");
+            throw new DataLoadException("Data file not found");
+
         return new File(resource.getFile());
+    }
+
+    private static class DataLoadException extends BaseException {
+        private DataLoadException(String message) {
+            super(message);
+        }
     }
 }

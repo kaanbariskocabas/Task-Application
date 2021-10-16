@@ -6,14 +6,11 @@
     "timer": {
       "timeCycles": [
         {
-          "workCycleInMinutes": 25,
-          "finished": true
+          "workCycleInMinutes": 25
         },
         {
           "workCycleInMinutes": 25,
-          "finished": false,
-          "paused": true,
-          "remainingTimeInSeconds": 1320
+          "totalWorkInSeconds": 1320
         }
       ],
       "totalTimeSpent": {

@@ -1,6 +1,6 @@
 package com.taskapplication.models;
 
-public enum StatusType {
+public enum TaskStatusType {
     OPEN,
     IN_PROGRESS,
     CLOSED

@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -18,7 +19,7 @@ public class Task {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -27,9 +28,15 @@ public class Task {
     private String content;
 
     @Column(nullable = false)
-    private StatusType status;
+    private TaskStatusType status;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Timer timer;
+
+    private boolean closed;
+
+    private LocalDateTime closedAt;
 
 }
