@@ -1,7 +1,6 @@
-package com.taskapplication.api.models;
+package com.taskapplication.api.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.http.HttpStatus;
 
 import java.util.UUID;

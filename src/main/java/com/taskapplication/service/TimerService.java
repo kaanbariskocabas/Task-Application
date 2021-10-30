@@ -1,9 +1,9 @@
-package com.taskapplication.services;
+package com.taskapplication.service;
 
-import com.taskapplication.api.models.TimerCreationRequest;
-import com.taskapplication.api.models.TimerCycleAdditionRequest;
-import com.taskapplication.models.TimeCycle;
-import com.taskapplication.models.Timer;
+import com.taskapplication.api.model.TimerCreationRequest;
+import com.taskapplication.api.model.TimerCycleAdditionRequest;
+import com.taskapplication.model.TimeCycle;
+import com.taskapplication.model.Timer;
 
 public interface TimerService extends BaseService {
     Timer findById(long timerId);

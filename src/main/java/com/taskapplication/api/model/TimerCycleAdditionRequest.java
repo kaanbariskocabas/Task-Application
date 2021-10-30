@@ -1,4 +1,4 @@
-package com.taskapplication.api.models;
+package com.taskapplication.api.model;
 
 import lombok.Getter;
 import lombok.Setter;

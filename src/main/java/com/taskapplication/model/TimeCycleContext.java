@@ -1,13 +1,13 @@
-package com.taskapplication.models;
+package com.taskapplication.model;
 
 import java.util.HashMap;
 
-import static com.taskapplication.models.TimeCycleStatusType.STARTED;
-import static com.taskapplication.models.TimeCycleStatusType.CREATED;
-import static com.taskapplication.models.TimeCycleStatusType.CANCELLED;
-import static com.taskapplication.models.TimeCycleStatusType.FINISHED;
-import static com.taskapplication.models.TimeCycleStatusType.PAUSED;
-import static com.taskapplication.models.TimeCycleState.PassedTime;
+import static com.taskapplication.model.TimeCycleStatusType.STARTED;
+import static com.taskapplication.model.TimeCycleStatusType.CREATED;
+import static com.taskapplication.model.TimeCycleStatusType.CANCELLED;
+import static com.taskapplication.model.TimeCycleStatusType.FINISHED;
+import static com.taskapplication.model.TimeCycleStatusType.PAUSED;
+import static com.taskapplication.model.TimeCycleState.PassedTime;
 
 public class TimeCycleContext {
 

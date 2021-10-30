@@ -1,4 +1,4 @@
-package com.taskapplication.services;
+package com.taskapplication.service;
 
 public interface BaseService {
     default long getId(long id) {

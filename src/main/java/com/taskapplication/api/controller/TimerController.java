@@ -1,8 +1,8 @@
 package com.taskapplication.api.controller;
 
-import com.taskapplication.models.Timer;
+import com.taskapplication.model.Timer;
 import com.taskapplication.repositories.TimerRepository;
-import com.taskapplication.services.TimerService;
+import com.taskapplication.service.TimerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

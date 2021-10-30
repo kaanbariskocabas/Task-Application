@@ -1,13 +1,13 @@
-package com.taskapplication.models;
+package com.taskapplication.model;
 
 import com.taskapplication.exception.BaseException;
 
 import java.time.LocalDateTime;
 
-import static com.taskapplication.models.TimeCycleStatusType.FINISHED;
-import static com.taskapplication.models.TimeCycleStatusType.STARTED;
-import static com.taskapplication.models.TimeCycleStatusType.CANCELLED;
-import static com.taskapplication.models.TimeCycleStatusType.PAUSED;
+import static com.taskapplication.model.TimeCycleStatusType.FINISHED;
+import static com.taskapplication.model.TimeCycleStatusType.STARTED;
+import static com.taskapplication.model.TimeCycleStatusType.CANCELLED;
+import static com.taskapplication.model.TimeCycleStatusType.PAUSED;
 
 public abstract class TimeCycleState {
 

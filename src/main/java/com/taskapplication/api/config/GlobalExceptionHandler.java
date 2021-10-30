@@ -1,6 +1,6 @@
 package com.taskapplication.api.config;
 
-import com.taskapplication.api.models.ApiResponse;
+import com.taskapplication.api.model.ApiResponse;
 import com.taskapplication.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

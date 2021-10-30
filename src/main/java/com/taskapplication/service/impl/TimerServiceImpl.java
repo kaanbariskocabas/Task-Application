@@ -1,31 +1,27 @@
-package com.taskapplication.services.impl;
+package com.taskapplication.service.impl;
 
-import com.taskapplication.api.models.TimerCreationRequest;
-import com.taskapplication.api.models.TimerCycleAdditionRequest;
-import com.taskapplication.models.TimeCycle;
-import com.taskapplication.models.TimeCycleContext;
-import com.taskapplication.models.TimeCycleState;
-import com.taskapplication.models.TimeSpent;
-import com.taskapplication.models.Timer;
+import com.taskapplication.api.model.TimerCreationRequest;
+import com.taskapplication.api.model.TimerCycleAdditionRequest;
+import com.taskapplication.model.TimeCycle;
+import com.taskapplication.model.TimeCycleContext;
+import com.taskapplication.model.TimeCycleState;
+import com.taskapplication.model.TimeSpent;
+import com.taskapplication.model.Timer;
 import com.taskapplication.repositories.TimerRepository;
-import com.taskapplication.services.TimerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.taskapplication.service.TimerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static java.util.Objects.isNull;
-import static com.taskapplication.models.TimeCycleState.PassedTime;
+import static com.taskapplication.model.TimeCycleState.PassedTime;
 
 @Service
+@RequiredArgsConstructor
 public class TimerServiceImpl implements TimerService {
 
     private final TimerRepository timerRepository;
-
-    @Autowired
-    public TimerServiceImpl(TimerRepository timerRepository) {
-        this.timerRepository = timerRepository;
-    }
 
     @Override
     public Timer findById(long timerId) {

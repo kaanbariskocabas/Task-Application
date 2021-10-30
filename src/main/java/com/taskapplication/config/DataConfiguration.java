@@ -2,8 +2,8 @@ package com.taskapplication.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taskapplication.exception.BaseException;
-import com.taskapplication.models.Task;
-import com.taskapplication.models.Timer;
+import com.taskapplication.model.Task;
+import com.taskapplication.model.Timer;
 import com.taskapplication.repositories.TaskRepository;
 import com.taskapplication.repositories.TimeCycleRepository;
 import com.taskapplication.repositories.TimerRepository;

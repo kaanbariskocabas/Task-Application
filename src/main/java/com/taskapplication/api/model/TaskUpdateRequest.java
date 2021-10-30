@@ -1,6 +1,6 @@
-package com.taskapplication.api.models;
+package com.taskapplication.api.model;
 
-import com.taskapplication.models.TaskStatusType;
+import com.taskapplication.model.TaskStatusType;
 import lombok.Getter;
 
 @Getter

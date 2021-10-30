@@ -1,8 +1,8 @@
-package com.taskapplication.services;
+package com.taskapplication.service;
 
-import com.taskapplication.api.models.TaskCreationRequest;
-import com.taskapplication.api.models.TaskUpdateRequest;
-import com.taskapplication.models.Task;
+import com.taskapplication.api.model.TaskCreationRequest;
+import com.taskapplication.api.model.TaskUpdateRequest;
+import com.taskapplication.model.Task;
 
 import java.util.List;
 
