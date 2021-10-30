@@ -2,7 +2,7 @@ package com.taskapplication.model;
 
 import com.taskapplication.exception.BaseException;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 import static com.taskapplication.model.TimeCycleStatusType.FINISHED;
 import static com.taskapplication.model.TimeCycleStatusType.STARTED;
@@ -31,7 +31,7 @@ public abstract class TimeCycleState {
 
     public static final class TimeCycleStateException extends BaseException {
 
-        private TimeCycleStateException(String message) {
+        TimeCycleStateException(String message) {
             super(message);
         }
     }
@@ -98,7 +98,7 @@ public abstract class TimeCycleState {
         checkWorkTime(context, passedWorkTimeInSeconds);
         checkBreakTime(context, passedBreakTimeInSeconds);
         final TimeCycle timeCycle = getTimeCycle(context);
-        timeCycle.setCancelledAt(LocalDateTime.now());
+        timeCycle.setCancelledAt(OffsetDateTime.now());
         timeCycle.setStatus(CANCELLED);
         context.setState(new CancelledTimeCycleState());
         return getPassedTime(passedWorkTimeInSeconds, passedBreakTimeInSeconds);
@@ -106,7 +106,7 @@ public abstract class TimeCycleState {
 
     protected void setStartedState(TimeCycleContext context) {
         final TimeCycle timeCycle = getTimeCycle(context);
-        timeCycle.setStartedAt(LocalDateTime.now());
+        timeCycle.setStartedAt(OffsetDateTime.now());
         timeCycle.setStatus(STARTED);
         context.setState(new StartedTimeCycleState());
     }
@@ -130,7 +130,7 @@ final class StartedTimeCycleState extends TimeCycleState {
     PassedTime pause(TimeCycleContext context, long passedWorkTimeInSeconds) {
         checkWorkTime(context, passedWorkTimeInSeconds);
         final TimeCycle timeCycle = getTimeCycle(context);
-        timeCycle.setPausedAt(LocalDateTime.now());
+        timeCycle.setPausedAt(OffsetDateTime.now());
         timeCycle.setStatus(PAUSED);
         context.setState(new PausedTimeCycleState());
         return getPassedTime(passedWorkTimeInSeconds, 0);
@@ -144,7 +144,7 @@ final class StartedTimeCycleState extends TimeCycleState {
     @Override
     PassedTime finish(TimeCycleContext context) {
         final TimeCycle timeCycle = getTimeCycle(context);
-        timeCycle.setFinishedAt(LocalDateTime.now());
+        timeCycle.setFinishedAt(OffsetDateTime.now());
         timeCycle.setStatus(FINISHED);
         context.setState(new FinishedTimeCycleState());
         return getPassedTime(getWorkTimeLeft(timeCycle), timeCycle.getBreakCycleInMinutes() * 60);

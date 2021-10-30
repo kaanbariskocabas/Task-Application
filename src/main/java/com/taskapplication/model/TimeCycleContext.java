@@ -27,11 +27,11 @@ public class TimeCycleContext {
 
     public TimeCycleContext(TimeCycle timeCycle) {
         if (timeCycle == null)
-            throw new RuntimeException();
+            throw new TimeCycleState.TimeCycleStateException("timeCycle should be defined.");
         this.timeCycle = timeCycle;
         this.state = stateMap.get(timeCycle.getStatus());
         if (state == null)
-            throw new RuntimeException();
+            throw new TimeCycleState.TimeCycleStateException("timeCycle state should be defined.");
     }
 
     public TimeCycle getTimeCycle() {

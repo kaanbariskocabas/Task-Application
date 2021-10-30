@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Getter
@@ -21,13 +21,13 @@ public class TimeCycle {
     @Column(name = "cycle_id")
     private Long id;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private OffsetDateTime createdAt = OffsetDateTime.now();
 
-    private LocalDateTime startedAt;
+    private OffsetDateTime startedAt;
 
-    private LocalDateTime cancelledAt;
+    private OffsetDateTime cancelledAt;
 
-    private LocalDateTime finishedAt;
+    private OffsetDateTime finishedAt;
 
     private TimeCycleStatusType status = TimeCycleStatusType.CREATED;
 
@@ -39,7 +39,7 @@ public class TimeCycle {
     @Column(nullable = false)
     private short breakCycleInMinutes = 5;
 
-    private LocalDateTime pausedAt;
+    private OffsetDateTime pausedAt;
 
     @Column(nullable = false)
     private long totalWorkInSeconds;

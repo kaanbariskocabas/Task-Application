@@ -5,17 +5,14 @@ import com.taskapplication.exception.BaseException;
 import com.taskapplication.model.Task;
 import com.taskapplication.model.Timer;
 import com.taskapplication.repositories.TaskRepository;
-import com.taskapplication.repositories.TimeCycleRepository;
 import com.taskapplication.repositories.TimerRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.List;
 
 import static com.taskapplication.util.ArrayUtil.convertArrayToList;
@@ -26,26 +23,22 @@ import static java.util.Objects.isNull;
 @Slf4j
 public class DataConfiguration implements CommandLineRunner {
 
-    private static String TASK_DATA_JSON_FILE;
-    private static String TIMER_DATA_JSON_FILE;
+    private static String taskDataJsonFileName;
+    private static String timerDataJsonFileName;
 
     private final TaskRepository taskRepository;
 
     private final TimerRepository timerRepository;
 
-    private final TimeCycleRepository timeCycleRepository;
-
-    @Autowired
-    public DataConfiguration(Environment environment, TaskRepository taskRepository, TimerRepository timerRepository, TimeCycleRepository timeCycleRepository) {
+    public DataConfiguration(Environment environment, TaskRepository taskRepository, TimerRepository timerRepository) {
         this.taskRepository = taskRepository;
         this.timerRepository = timerRepository;
-        this.timeCycleRepository = timeCycleRepository;
         setPropertyFields(environment);
     }
 
-    private void setPropertyFields(Environment environment) {
-        TASK_DATA_JSON_FILE = environment.getProperty("TASK_DATA_JSON_FILE");
-        TIMER_DATA_JSON_FILE = environment.getProperty("TIMER_DATA_JSON_FILE");
+    private static void setPropertyFields(Environment environment) {
+        taskDataJsonFileName = environment.getProperty("TASK_DATA_JSON_FILE");
+        timerDataJsonFileName = environment.getProperty("TIMER_DATA_JSON_FILE");
     }
 
     @Override
@@ -69,11 +62,11 @@ public class DataConfiguration implements CommandLineRunner {
     }
 
     private List<Timer> getTimers() throws IOException {
-        return getMappedList(TIMER_DATA_JSON_FILE, Timer[].class);
+        return getMappedList(timerDataJsonFileName, Timer[].class);
     }
 
     private List<Task> getTasks() throws IOException {
-        return getMappedList(TASK_DATA_JSON_FILE, Task[].class);
+        return getMappedList(taskDataJsonFileName, Task[].class);
     }
 
     private <T> List<T> getMappedList(String timerDataJsonFile, Class<T[]> valueType) throws IOException {
@@ -84,15 +77,11 @@ public class DataConfiguration implements CommandLineRunner {
         if (isNull(valueType))
             throw new DataLoadException("Please specify a class type for mapping");
 
-        return new ObjectMapper().readValue(getDataFile(fileName), valueType);
+        return new ObjectMapper().readValue(getDataFileAsStream(fileName), valueType);
     }
 
-    private File getDataFile(String fileName) {
-        final URL resource = DataConfiguration.class.getClassLoader().getResource(fileName);
-        if (resource == null || resource.getFile() == null)
-            throw new DataLoadException("Data file not found");
-
-        return new File(resource.getFile());
+    private InputStream getDataFileAsStream(String fileName) {
+        return DataConfiguration.class.getClassLoader().getResourceAsStream(fileName);
     }
 
     private static class DataLoadException extends BaseException {

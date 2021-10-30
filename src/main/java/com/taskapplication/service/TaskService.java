@@ -11,4 +11,5 @@ public interface TaskService extends BaseService {
     void delete(Long taskId);
     Task update(TaskUpdateRequest taskUpdateRequest);
     List<Task> filter();
+    Task findById(long taskId);
 }

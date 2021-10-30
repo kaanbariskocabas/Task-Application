@@ -1,10 +1,10 @@
 package com.taskapplication.api.model;
 
-import com.taskapplication.model.TaskStatusType;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public final class TaskUpdateRequest extends TaskCreationRequest {
-    private TaskStatusType status;
-    private TimerCreationRequest timerRequest;
+    private long taskId;
 }

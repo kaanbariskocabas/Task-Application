@@ -10,7 +10,7 @@ public interface TimerService extends BaseService {
     Timer create(TimerCreationRequest timerCreationRequest);
     void delete(long timerId);
     Timer addTimeCycle(TimerCycleAdditionRequest timerCycleAdditionRequest);
-    TimeCycle getActiveTimeCycle(long timerId);
+    TimeCycle getCurrentTimeCycle(long timerId);
     Timer start(long timerId);
     Timer resume(long timerId);
     Timer pause(long timerId, long passedWorkTimeInSeconds);

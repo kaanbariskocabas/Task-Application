@@ -2,6 +2,7 @@ package com.taskapplication.service.impl;
 
 import com.taskapplication.api.model.TimerCreationRequest;
 import com.taskapplication.api.model.TimerCycleAdditionRequest;
+import com.taskapplication.exception.BaseException;
 import com.taskapplication.model.TimeCycle;
 import com.taskapplication.model.TimeCycleContext;
 import com.taskapplication.model.TimeCycleState;
@@ -46,19 +47,14 @@ public class TimerServiceImpl implements TimerService {
     }
 
     @Override
-    public TimeCycle getActiveTimeCycle(long timerId) {
-        return getActiveTimeCycle(findById(timerId));
-    }
-
-    public TimeCycle getActiveTimeCycle(Timer timer) {
-        final List<TimeCycle> timeCycles = timer.getTimeCycles();
-        return timeCycles.get(timeCycles.size() - 1);
+    public TimeCycle getCurrentTimeCycle(long timerId) {
+        return getCurrentTimeCycle(findById(timerId));
     }
 
     @Override
     public Timer start(long timerId) {
         final Timer timer = findById(timerId);
-        final TimeCycleContext timeCycleContext = new TimeCycleContext(getActiveTimeCycle(timer));
+        final TimeCycleContext timeCycleContext = new TimeCycleContext(getCurrentTimeCycle(timer));
         timeCycleContext.start();
         return timerRepository.save(timer);
     }
@@ -66,7 +62,7 @@ public class TimerServiceImpl implements TimerService {
     @Override
     public Timer resume(long timerId) {
         final Timer timer = findById(timerId);
-        final TimeCycleContext timeCycleContext = new TimeCycleContext(getActiveTimeCycle(timer));
+        final TimeCycleContext timeCycleContext = new TimeCycleContext(getCurrentTimeCycle(timer));
         timeCycleContext.resume();
         return timerRepository.save(timer);
     }
@@ -74,7 +70,7 @@ public class TimerServiceImpl implements TimerService {
     @Override
     public Timer pause(long timerId, long passedWorkTimeInSeconds) {
         final Timer timer = findById(timerId);
-        final TimeCycleContext timeCycleContext = new TimeCycleContext(getActiveTimeCycle(timer));
+        final TimeCycleContext timeCycleContext = new TimeCycleContext(getCurrentTimeCycle(timer));
         final TimeCycleState.PassedTime passedTime = timeCycleContext.pause(passedWorkTimeInSeconds);
         return timerRepository.save(getPassedTimeIncludedTimer(timer, passedTime));
     }
@@ -82,7 +78,7 @@ public class TimerServiceImpl implements TimerService {
     @Override
     public Timer cancel(long timerId, long passedWorkTimeInSeconds, long passedBreakTimeInSeconds) {
         final Timer timer = findById(timerId);
-        final TimeCycleContext timeCycleContext = new TimeCycleContext(getActiveTimeCycle(timer));
+        final TimeCycleContext timeCycleContext = new TimeCycleContext(getCurrentTimeCycle(timer));
         final PassedTime passedTime = timeCycleContext.cancel(passedWorkTimeInSeconds, passedBreakTimeInSeconds);
         return timerRepository.save(getPassedTimeIncludedTimer(timer, passedTime));
     }
@@ -90,9 +86,14 @@ public class TimerServiceImpl implements TimerService {
     @Override
     public Timer finish(long timerId) {
         final Timer timer = findById(timerId);
-        final TimeCycleContext timeCycleContext = new TimeCycleContext(getActiveTimeCycle(timer));
+        final TimeCycleContext timeCycleContext = new TimeCycleContext(getCurrentTimeCycle(timer));
         final PassedTime passedTime = timeCycleContext.finish();
         return timerRepository.save(getPassedTimeIncludedTimer(timer, passedTime));
+    }
+
+    private TimeCycle getCurrentTimeCycle(Timer timer) {
+        final List<TimeCycle> timeCycles = timer.getTimeCycles();
+        return timeCycles.get(timeCycles.size() - 1);
     }
 
     private Timer getTimerById(TimerCycleAdditionRequest timerCycleAdditionRequest) {
@@ -102,7 +103,7 @@ public class TimerServiceImpl implements TimerService {
 
     private void checkAdditionRequest(TimerCycleAdditionRequest timerCycleAdditionRequest) {
         if (isNull(timerCycleAdditionRequest))
-            throw new RuntimeException();
+            throw new TimerValidationException("Timer addition request should be defined.");
     }
 
     private Timer getPassedTimeIncludedTimer(Timer timer, PassedTime passedTime) {
@@ -120,5 +121,11 @@ public class TimerServiceImpl implements TimerService {
         if (isNull(timerCreationRequest))
             return new TimeCycle();
         return new TimeCycle(timerCreationRequest.getWorkCycleInMinutes(), timerCreationRequest.getRestCycleInMinutes());
+    }
+
+    public static class TimerValidationException extends BaseException {
+        private TimerValidationException(String message) {
+            super(message);
+        }
     }
 }
