@@ -120,7 +120,7 @@ public class TimerServiceImpl implements TimerService {
     private TimeCycle getTimeCycle(TimerCreationRequest timerCreationRequest) {
         if (isNull(timerCreationRequest))
             return new TimeCycle();
-        return new TimeCycle(timerCreationRequest.getWorkCycleInMinutes(), timerCreationRequest.getRestCycleInMinutes());
+        return new TimeCycle(timerCreationRequest.getWorkCycleInMinutes(), timerCreationRequest.getBreakCycleInMinutes());
     }
 
     public static class TimerValidationException extends BaseException {

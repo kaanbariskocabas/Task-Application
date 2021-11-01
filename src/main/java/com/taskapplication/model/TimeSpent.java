@@ -25,6 +25,6 @@ public class TimeSpent {
     public void addTime(long workSeconds, long breakSeconds) {
         workTimeInSeconds += workSeconds;
         breakTimeInSeconds += breakSeconds;
-        totalTimeInSeconds += workTimeInSeconds + breakTimeInSeconds;
+        totalTimeInSeconds = workTimeInSeconds + breakTimeInSeconds;
     }
 }
